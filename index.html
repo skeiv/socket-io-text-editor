@@ -1,0 +1,25 @@
+<html>
+<title>Текстовый редактор</title>
+<body>
+    <h3>Текстовый редактор</h3>
+    <div>
+        <textarea id="editor" style="background-color:rgb(245, 245, 245);color:rgb(0, 0, 0);width:100vh;height:100vh" placeholder="Type Your Text..."></textarea>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io();
+const l = console.log
+function getEl(id) {
+    return document.getElementById(id)
+}
+const editor = getEl("editor")
+editor.addEventListener("keyup", (evt) => {
+    const text = editor.value
+    socket.send(text)
+})
+socket.on('message', (data) => {
+    editor.value = data
+})
+</script>
+</html>
